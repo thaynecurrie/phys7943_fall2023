@@ -8,7 +8,7 @@
 
 The first step in learning Python or any other language is to ask a piece of code to print a statement.   
 
- To do this from interactive Python ("iPython"), first you type ``python`` in your terminal window, which will bring up the interactive Python prompt. 
+ To do this from command line, first you type ``python`` in your terminal window, which will bring up the Python prompt. 
  
  Printing with statements with Python 3 are enclose by parentheses. 
 
