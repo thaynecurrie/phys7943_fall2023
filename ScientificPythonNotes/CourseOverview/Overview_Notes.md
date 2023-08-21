@@ -92,11 +92,36 @@ Below are some more details about these topics.
 # 3. Other Notes ...
 
 * This is a new course!
-* Computer Setup
+
+* Computer Setup/Anaconda Installation
+
+**MacOS** - [https://docs.anaconda.com/free/anaconda/install/mac-os/]()
+
+**Linux** - [https://docs.anaconda.com/free/anaconda/install/linux/]()
+
+**Windows** - ... go buy a Mac instead
+
+OR
+
+[https://docs.anaconda.com/free/anaconda/install/windows/]()
+
+_How do you know it worked???_
+
+Go into Terminal (if you are using Mac/Linux) or perhaps Anaconda powershell (if you are using Windows), type "python" (which should bring up Python prompt), and then type (on successive lines)
+
+```
+import numpy as np
+print(np.random.rand(10))
+import matplotlib.pyplot as plt
+plt.scatter(np.random.rand(10),np.random.rand(10))
+plt.show()
+```
+
 * Markdown 
 * Jupyter Notebooks 
 * Github
 * Feedback is strongly encouraged
+* Introductions ...
 
 
 
