@@ -89,6 +89,14 @@ Below are some more details about these topics.
 
 
 
+# 3. Other Notes ...
+
+* This is a new course!
+* Computer Setup
+* Markdown 
+* Jupyter Notebooks 
+* Github
+* Feedback is strongly encouraged
 
 
 
