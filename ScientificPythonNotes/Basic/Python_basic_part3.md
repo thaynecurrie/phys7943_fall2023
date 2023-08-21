@@ -56,6 +56,13 @@ In this module, multiple python functions are defined and then are run with diff
 
 **CAUTION** If you run a piece of python code from terminal (e.g. ``python [name of file]``) then that piece of code does not have to be in  your current working directory.  **BUT** If you import a function from a file, that file has to be in your current working directory or in your ``$PYTHONPATH``.
 
+Where is your path?  This will help:
+
+```
+print('\n'.join(sys.path))
+
+```
+
 For the below examples, for importing functions, we will assume we are in the current working directory.
 An example with an edited module, ex18b.py:
 
