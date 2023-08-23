@@ -1,0 +1,14 @@
+1. do the zip+enumerate combination to index absmag in your exmaple for zip
+
+i.e.
+
+starname=['HIP 99770','AF Lep','HR 8799','Vega']
+spectype=['A5V','F8V','F0V','A0V']
+starmag=np.array([4.9,6.3,5.9,0.0])
+dstar=np.array([40.74,26.8, 39.4, 7.7])
+
+for ind,(i,j,k,l) in enumerate(zip(starname,spectype,starmag,dstar)):
+ absmag[ind]=k-5*np.log10(l/10.)
+ print('The absolute magnitude of star {0:s} with spectral type {1:s} is {2:.3f}'.format(i,j,absmag[ind]))
+
+2. do a few list comprehensions that are tricky
