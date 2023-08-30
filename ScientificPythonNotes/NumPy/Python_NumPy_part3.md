@@ -47,13 +47,13 @@ arr2d[0,2]
 
 ```
 
+
 #### _Indexing with Slicing_
 
 Another example shows how indexing is treated with slicing for NumPy arrays.
 
 ```
 arr2d = np.array([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
-arr2d[:2]=array([7,8,9])
 #array([[1, 2, 3],#[4, 5, 6]])
 
 ```

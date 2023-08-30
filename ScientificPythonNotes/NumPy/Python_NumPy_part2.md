@@ -50,9 +50,28 @@ arr2 > arr
 
 Operations between arrays of different sizes is called _broadcasting_: we will discuss that later.
 
-### Universal Functions
+### Universal and Other Key Functions
 
-NumPy contains _universal functions_ that perform vectorized operaitons on NumPy arrays. 
+First, there are _aggregate_ functions that perform an operation on a set of values and produce a single result.   Generally, these are self-explanatory but we give details below.
+
+They are called by ``np.[functionname]``.  e.g. if an array is ``np.array([3,4,5,6])`` then we can compute the mean value by``np.mean(a)``.
+
+| Function| Description |
+| -------| ----------- | 
+|sum|	Returns the sum of array elements over a given axis.
+|prod|	Returns the product of array elements over a given axis.
+|mean|	Computes the arithmetic mean along the specified axis.
+|median|	Computes the median along the specified axis.
+|std|	Computes the standard deviation along the specified axis.
+|var|	Computes the variance along the specified axis.
+|min|	Returns the indices of the minimum values along an axis.
+|max|	Returns the indices of the maximum values along an axis.
+|all|	Checks if all array elements along a given axis evaluate to True.
+|any|	Checks if any array element along a given axis evaluates to True.
+|cumsum|	Returns the cumulative sum of the elements along a given axis.
+|cumprod|	Returns the cumulative product of the elements along a given axis.
+
+NumPy contains _universal functions_ that perform vectorized operations on NumPy arrays. 
 
 _unary_ universal functions perform element-wise transformations and are called as ``np.functionname(array)``.  E.g. ``np.exp(array)``, ``np.sqrt(array)``, ``np.floor(array)``.   Here are some examples:
 
@@ -69,3 +88,6 @@ _binary_ universal functions two two arrays and return a single array as a resul
 
 Some ufuncs can return multiple arrays -- e.g. ``np.modf`` which returns the fractional and integral parts of a floating point array.   But these are uncommon.
 
+
+
+data
