@@ -318,7 +318,14 @@ Here, the array ``arr`` is not repeated four times but instead each element of t
 
 For example, we can demean each column of an array by subtracting the columnmeans. In this case, it is very simple:
 ```
-arr = np.random.randn(4, 3)arr.mean(0)array([-0.3928, -0.3824, -0.8768])demeaned = arr - arr.mean(0)demeaned#array([[ 0.3937, 1.7263, 0.1633],[-0.4384, -1.9878, -0.9839],[-0.468 , 0.9426, -0.3891],[ 0.5126, -0.6811, 1.2097]])demeaned.mean(0)#array([-0., 0., -0.])
+arr = np.random.randn(4, 3)
+#array([[-1.22874486,  0.30197145, -0.86173612],
+       [-1.2164509 ,  0.77229084, -0.95803295],
+       [-2.32023976, -2.19461656,  1.27951556],
+       [-0.11983631,  0.2444452 , -0.20583469]])arr.mean(0)array([-1.22131796, -0.21897727, -0.18652205])demeaned = arr - arr.mean(0)demeaned#array([[-0.00742691,  0.52094872, -0.67521407],
+       [ 0.00486706,  0.99126811, -0.7715109 ],
+       [-1.0989218 , -1.9756393 ,  1.46603761],
+       [ 1.10148165,  0.46342247, -0.01931264]])demeaned.mean(0)#array([-0., 0., -0.])
 ```
 
 Improper array broadcasting (or miscasting) is the source of many Python coding errors.   Which brings us to the broadcasting "rule":
@@ -330,7 +337,21 @@ For example, for a (4,3) NumPy array and a (3,) array, the result is a (4,3) arr
 Note that if you ask Python to do an impossible broadcast, you will get an error that looks something like this:
 
 ```
-ValueError Traceback (most recent call last)<ipython-input-93-7b87b85a20b2> in <module>()----> 1 arr - arr.mean(1)ValueError: operands could not be broadcast together with shapes (4,3) (4,)
+row_means=arr.mean(1)
+arr-row_means
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: operands could not be broadcast together with shapes (4,3) (4,) 
+```
+
+However, reshaping the array can avoid a broadcasting error:
+
+```
+arr-row_means.reshape(4,1)
+#array([[-0.63257502,  0.89814129, -0.26556627],
+       [-0.74905323,  1.23968851, -0.49063528],
+       [-1.24179284, -1.11616964,  2.35796248],
+       [-0.09276104,  0.27152047, -0.17875942]])
 ```
 
 A common problem, therefore, is needing to add a new axis with length 1 specificallyfor broadcasting purposes. Using reshape is one option, but inserting an axisrequires constructing a tuple indicating the new shape. This can often be a tediousexercise. Thus, NumPy arrays offer a special syntax for inserting new axes by indexing.We use the special np.newaxis attribute along with “full” slices to insert the newaxis:
@@ -348,13 +369,13 @@ Another example:
 ```
 arr_1d=np.random.normal(size=3)
 array([-0.18062971,  0.2243808 , -0.08067678])
-arr_1d[:,np.newaxis]
+arr_1d[:,np.newaxis] #a column vector
 #array([[-0.18062971],
         [ 0.2243808],
         [-0.08067678]])
         
-arr_1d[np.newaxis,:]
-#array([[-0.18062971,  0.2243808 , -0.08067678]])
+arr_1d[np.newaxis,:] #a row vector
+#array([[-0.18062971,  0.2243808 , -0.08067678]]) 
 ```
 
 
@@ -366,4 +387,13 @@ arr = np.zeros((4, 3))arr[:] = 5arr#array([[ 5., 5., 5.],[ 5., 5., 5.],[ 5
 ```
  col = np.array([1.28, -0.42, 0.44, 1.6]) arr[:] = col[:, np.newaxis] arr  #array([[ 1.28, 1.28, 1.28], [-0.42, -0.42, -0.42], [ 0.44, 0.44, 0.44], [ 1.6 , 1.6 , 1.6 ]])
   arr[:2] = [[-1.37], [0.509]] arr  #array([[-1.37 , -1.37 , -1.37 ], [ 0.509, 0.509, 0.509], [ 0.44 , 0.44 , 0.44 ], [ 1.6 , 1.6 , 1.6 ]])
- ```
+ 
+```
+ 
+ Note, though that ``arr[:2] = [[-1.37, 0.509]]`` triggers a broadcasting error.
+ 
+```
+ Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: could not broadcast input array from shape (1,2) into shape (2,3)
+```
