@@ -384,3 +384,68 @@ This result tells you that $a_{0}$ = 2, $a_{1}$ = 4, and $a_{2}$ = 4 is a soluti
 (Note: in this case, it is not a *unique* solution since the determinant of A, as we find now that we have coefficients, is zero ... but small details ...).
 
 ### More Complex Example: LOCI
+
+Okay fine, the above was a simplistic example.   Does anything above help us to do actual research?  Yes! 
+
+Let's pretend you are interested in imaging planets.  You have one target image $O^{T}$ where there is a planet hiding in noise (these are called "speckles").  You have a set of other images, $O^{R}$, with a very similar noise pattern (since "speckles" are _quasi-static_) from which you want to construct a _reference_ image.  These reference images could be that of a different star or the same star observed at a different parallactic angle (i.e. where north on your camera is pointed differently, so this hidden planet is in a different x,y position on your detector).
+
+ After constructing this reference image, you then subtract it from the target image to reveal planets.  Sounds good?  But how do you _optimially_ combine these images?
+
+Well, if you ignore some small details (e.g. signal loss from the planet when doing all of these, etc.) this is really a question of
+
+ "how do you optimially weight each of those reference images so that the subtraction minimizes the sum of the squared residuals."  I.e. 
+ 
+ min($\sigma^{2}$), where 
+ 
+ $\sigma^{2} = \sum_{i} (O^{T}-O^{R}_{i})^{2}$ 
+ 
+ and $i$ is the pixel number (i.e. you are summing the residuals over all of the pixels of interest.
+ 
+ If you have a bunch of images, making up your reference set $R$ this converts to
+ 
+ $\sigma^{2} = \sum_{i} (O^{T}-\sum_{k} c^{k}O^{k}_{i})^{2}$,
+ 
+ where $c^{k}$ is the coefficient (i.e. a number) applied to the $kth$ image in your reference set.
+ 
+ If you have found a _real_ minimum of $\sigma^{2}$, then the partial derivative with respect to the coefficients goes to zero for **all** coefficients.  E.g. for the $jth$ coefficient then ...
+ 
+ $\frac{\partial \sigma^{2}}{\partial c^{j}}$
+ 
+  $\partial \sigma^{2}/\partial c^{j}$ = $\sum_{i} -2 O^{j}_{i}$$(O^{T}-\sum_{k} c^{k}O^{k}_{i})$ = 0
+  
+  Reversing the summation order you get
+  
+  $\sum_{k} c^{k}$($\sum_{i} O^{j}_{i} O^{k}_{i}$) = $\sum_{i} O^{j}_{i} O^{T}_{i}$
+  
+   
+  
+   Now look at the left side of the equation.  The inner summation is summing over all pixels for the $jth$ reference image and set of $kth$ reference images.  The outer summation is a summation over $k$.  The right side, is multiplying the values of two particular images together $O^{j}$ (from the reference set) and $O^{T}$ your target image.
+   
+   This is just _one_ partial derivative, minimizing one coefficient.  You can do this for every single possible coefficient. I.e. the left side of the equation becomes a single vector ($c^{k}$ over all values of $k$) multiplied by a 2-D matrix (a square matrix, actually ... since the sum over k and the entire set of reference images = same dimensions.
+   
+   I.e. we have a system of linear equations
+   
+   $A_{jk}$ = $\sum_{i} O^{j}_{i} O^{k}_{i}$
+   
+   $x^{k}$ = $c^{k}$
+   
+   $b_{j}$ = $\sum_{i} O^{j}_{i} O^{T}_{i}$
+   
+   **A****x**=**b**
+   
+   We can then _invert_ the matrix A, multiply it by b to get the set of coefficients that minimize the noise!
+   
+   Now, this does work really well.   
+   
+   Below shows an example with a bunch of fake planets inserted: top image is a simple median combination of reference images, bottom shows this 
+   _"Optimized Combination of Images"_ approach.  In the real algorithm, you do this subtraction in small patches of the image at once.  So the name of the algorith is then the 
+   
+   _**"Locally Optimized Combination of Images"**_ algorithm 
+   (Lafreniere et al. 2007, Astrophysical Journal, 660, 770)
+   
+   ![](./figures/Figure_3.png)
+   
+   
+   
+  
+  
