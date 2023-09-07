@@ -47,7 +47,7 @@ you should get ``aflat=array([ 1,  2.333, -4, -4, -3,
        -0.001, -.2,  5.3,  9.99])``
        
 use ``np.tile`` to repeat this array 
- three times and follow the steps in part 1 to compute the determinant.  Notice a pattern?
+ nine times and follow the steps in part 1 to compute the determinant.  Notice a pattern?
  
 ### 3. Solving a System of Linear Equations
 
