@@ -33,10 +33,19 @@ def truncate_image(k=5):
 
 def denoise_image(k=5,nlevel=0.05,plotme=True):
 
- A=imread('cat.jpeg')
+ #A=imread('cat.jpeg')
+ #A=imread('acdc2.jpg')
+ #A=imread('pinkfloyd.png')
+ #A=imread('noisy.png')
+ A=imread('thephoto.jpg')
+
+ A_orig=A.copy()
 
  A=sp_noise(A,nlevel)
- X=np.mean(A,-1)
+ try:
+  X=np.mean(A,-1)
+ except:
+  X=A
 
  img=plt.imshow(X)
  img.set_cmap('gray')
