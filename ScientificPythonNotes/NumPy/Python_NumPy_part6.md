@@ -301,7 +301,6 @@ def ex1():
 
  aaa=np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16],[17,18,19,20]])
 
-# aaa.np.random.rand(5,4)
 
 #with np.linalg.svd
 
@@ -368,13 +367,13 @@ def ex1():
 ```
 
 
-### Truncated SVD in Python; Matrix Condition Number and Matrix Rank
+### Truncated SVD in Python; Matrix Condition Number and Matrix Rank/Null Space
 
  To do a head-to-head comparison with a direct inverse, let's make a 4 by 4 matrix and compare a direct inversion with an SVD.  This is described in ``def ex2():``, and we repeat the most important lines here.
  
 ```
 aaa=np.array([[1.1,2.2,3.3,4.4],[5.5,6.6,7.7,8.7],[9.98,10.1,11.11,12.12],[13,14,15,16],[17,18,19,20]])
-aaa=aaa[:4,:] making a 4x4 matrix
+aaa=aaa[:4,:] #making a 4x4 matrix
 
 print(aaa)
 #[[ 1.1   2.2   3.3   4.4 ]
@@ -452,7 +451,7 @@ A useful (for now, at least: see later) interpretation is that the first singula
 
 ***(An analogy, start with an ellipse with coordinates x and y and then transform to 3 dimensions (i.e. add a z direction).  If the magnitude along the z direction is tiny compared to x and y, then this spheroid is essentially a 2-D ellipse).    
 
-Another thing becomes important when we try to _invert_ matrices.  Matrices with singular values of 0 are bad news (can't invert them); those with values _close_ to 0 are also dangerous because it may not be possible to accurately compute them.   In these cases, matrices are _ill-conditioned_ because dividing by the singular values  1/$s_{i}$ -- i.e. what you do when you invert $\Sigma$ ($\Sigma^{-1}$) -- for $s_{i}$ that are really close to zero will result in numerical errors.   
+Another thing becomes important when we try to _invert_ matrices.  Matrices with singular values of 0 are bad news (can't invert them).  You can determine if a matrix is a singular matrix if the determinant of the matrix is 0. those with values _close_ to 0 are also dangerous because it may not be possible to accurately compute them.   In these cases, matrices are _ill-conditioned_ because dividing by the singular values  1/$s_{i}$ -- i.e. what you do when you invert $\Sigma$ ($\Sigma^{-1}$) -- for $s_{i}$ that are really close to zero will result in numerical errors.   
 
 The degree to which ill-conditioning prevents a matrix from being inverted accurately depends on
 the ratio of its largest to smallest singular value, a quantity known as the **condition number**:
@@ -463,13 +462,83 @@ In the example above, the condition number of $\Sigma$ is nothing to be worried 
 
 Another context where this useful is when your matrix is "noisy" (e.g. working with images).  In such a case, a full matrix inversion will end up amplifying this noise.   Truncated SVD therefore guards against this problem.  
 
+The _rank_ of a matrix is equal to: (i) its number of linearly independent columns; (ii)
+its number of linearly independent rows (these end up being the same thing).  You can think of the matrix rank as the dimensionality of the vector space spanned by its rows or its columns. 
 
+SVD gives you a particularly straightforward to identify the rank of the matrix: the rank is equal to the number of non-zero singular values of a matrix.   We can identify the matrix rank in NumPy from ``np.linalg.matrix_rank([name of matrix])``.   The main keyword here is ``tol`` (e.g. for a matrix M, np.linalg.matrix_rank(M,tol=1e-15) gives its rank).   Otherwise, what this does is that it calculates the rank of the matrix from the number of _non-zero_ singular values.   Conversely, the singular values equal to zero refer to the _null space_ of the matrix.   
+
+For example, let's go back to the matrix aaa:
+
+```
+aaa=np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16],[17,18,19,20]])
+
+rank=np.linalg.matrix_rank(aaa)
+
+print(rank)
+#2
+
+```
+
+We get the same answer if we chop off one of the rows of aaa (i.e. aaa=aaa[:4,:]).   We can confirm by returning the matrix $\Sigma$
+
+```
+U,s,Vt=np.linalg.svd(aaa)
+S=np.zeros(np.shape(aaa))
+np.fill_diagonal(S,s)
+
+S
+#array([[5.35202225e+01, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 2.36342639e+00, 0.00000000e+00, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 4.11380109e-15, 0.00000000e+00],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 6.65983308e-16],
+       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00]])
+
+```
+
+There, there are two singular vlaues ($\sim$ 53.5 and 2.36) and then two that are $\sim$0 within machine precision.  Hence, the rank of the matrix is 2. 
+
+
+
+
+So even though the matrix has 5 rows and 4 columns, its rank is two.  
+
+Now, try the same with the "edited" version of aaa which we used in this section to demonstrate truncated SVD
+
+```
+aaa=np.array([[1.1,2.2,3.3,4.4],[5.5,6.6,7.7,8.7],[9.98,10.1,11.11,12.12],[13,14,15,16]])
+
+print(np.linalg.matrix_rank(aaa))
+#4
+
+#a check
+U,s,Vt=np.linalg.svd(aaa)
+S=np.zeros(np.shape(aaa))
+np.fill_diagonal(S,s)
+
+print(S)
+#[[3.94670012e+01 0.00000000e+00 0.00000000e+00 0.00000000e+00]
+ [0.00000000e+00 2.28462303e+00 0.00000000e+00 0.00000000e+00]
+ [0.00000000e+00 0.00000000e+00 4.02701645e-01 0.00000000e+00]
+ [0.00000000e+00 0.00000000e+00 0.00000000e+00 3.23542887e-02]]
+
+```
+
+The dimensions of this matrix about the same as the previous one but here we have four diagonal elements that are very much larger than $\sim$10$^{-14}$--10$^{-16}$.   Hence, the rank of this matrix is 4.
+
+So then what happens to the matrix rank when we truncate $\Sigma$?   It is _reduced_.   E.g. if we truncate the previous matrix aaa (i.e. the one we just determined is a rank-4 matrix) at tol=0.05, then the rank is reduced to 3
+
+```
+np.linalg.matrix_rank(aaa,tol=0.05)
+#3
+```
+
+This helps us interpret exactly what we are doing when we use truncated SVD for matrix inversions.   I.e. truncating $\Sigma$ produces a _reduced-rank_ (or "lower-rank") approximation to the full matrix $A$.  Since we can think of each one of the column vectors $U$ or $V^{T}$ (which have corresponding singular values) as dimensions, truncated SVD can be thought of as "dimensionality reduction".
 
 ---
 
 tl;dr ... 
 
-So, we can perform _truncated_ singular value decomposition by setting to zero all of the singular values below some threshold.  In ``np.linalg.pinv`` this threshold is ``rcond``.  The number is normalized _relative_ to the largest singular value.   E.g. so if the largest singular value is 6 and you set ``rcond=0.01``, then all singular values (i.e. all diagonal elements of $\Sigma$) less than 0.06 will bet set to zero.  
+So, we can perform _truncated_ singular value decomposition by setting to zero all of the singular values below some threshold.  In ``np.linalg.pinv`` this threshold is ``rcond``.  The number is normalized _relative_ to the largest singular value.   E.g. so if the largest singular value is 6 and you set ``rcond=0.01``, then all singular values (i.e. all diagonal elements of $\Sigma$) less than 0.06 times the maximum value will bet set to zero.  The rank of the matrix returns the number of non-zero singular values; the null space corresponds to singular values = 0.   Truncated SVD produces a lower-rank approximation to the original matrix $A$ and can be thought of as a dimensionality reduction.
 
 
 #### Practical Examples of SVD for Scientific Python
@@ -494,17 +563,23 @@ Here's an example of a picture of a celebration of one of my best friends.  Look
 
 
 
-First singular value retained, only
+First singular value retained, only:
 
 ![](./code/hubble_k1.png)
 
-First five
+Hard to see what this is but we do know there are regions of the image that are bright and regions taht are dark.
+
+First five:
 
 ![](./code/hubble_k5.png)
 
-Twenty
+Still unclear but we are starting to see the shape of something.  There is more structure to the light and dark regions.
+
+Twenty:
 
 ![](./code/hubble_k20.png)
+
+Now we are getting warmer.  This looks like a dog?
 
 One hundred
 
