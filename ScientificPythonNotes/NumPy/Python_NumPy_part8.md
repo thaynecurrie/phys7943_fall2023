@@ -402,3 +402,22 @@ Below is an example image of an exoplanet with PCA/KLIP.
 
 ![](./figures/pcaexample.png) 
 
+You can also use PCA to remove thermal background from images in some cases.   Ground-based imaging of exoplanets is usually done in the infrared where planets are bright but also the sky is much brighter than it is in the optical.   In _thermal_ infrared passbands (e.g. 3 to 5 microns) the sky is _particularly_ bright.   And that "sky background" also varies in brightness on the order of minutes to tens of minutes or so.   
+
+The usual way to remove sky background is through simple "sky subtraction" (i.e. you move the star around the image, take a median-combination of those dithered images, subtract this "sky" image from each of your target images.   
+
+Below is an example:
+
+![](./figures/bckgdpca1.png)
+
+As you can see, the residual sky background has a lot of structure.  Maybe we can clean it up better?
+
+The answer is to actually use principal component analysis to model and remove the sky background as described in Hunziker et al. (2018).  If you have a bunch of sky images taken in short sequences, you can do this.  First, remove the mean sky level from each frame.  Then combine the sky frames into a matrix of $m$ images by $n$ pixels.   There's some other trickery you have to do (e.g. masking out the star/probable planet location), but the basic consequence is that you can model the sky background a lot better.  Below is an example of the same sky background as above in principal component "space"
+
+![](./figures/bckgdpca2a.png)
+![](./figures/bckgdpca2b.png)
+
+You then project these PCs onto each image to flatten the sky background.
+
+![](./figures/bckgdpca3.png)
+
