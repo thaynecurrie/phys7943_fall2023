@@ -22,7 +22,7 @@ def ex1():
 
 # wrap = getattr(aaa, "__array_prepare__", new.__array_wrap__) ### def not needed to demonstrate the point
 
- rcond=1e-115 #default value for pseudo-inverse
+ rcond=1e-15 #default value for pseudo-inverse
  rcond=np.asarray(rcond)
  new = new.conjugate()
 
@@ -79,11 +79,11 @@ def ex2(rcond=1e-15):
 #taking the SVD
  u,s,vt=np.linalg.svd(new,full_matrices=False)
 
- #print(u.shape,s.shape,vt.shape)
  cutoff = rcond[..., np.newaxis] * np.amax(s, axis=-1, keepdims=True)
- print('cutoff is',cutoff)
- print('s is ',s)
- print(rcond*s,rcond*np.amax(s,axis=-1,keepdims=True))
+
+ #print('cutoff is',cutoff)
+ #print('s is ',s)
+ #print(rcond*s,rcond*np.amax(s,axis=-1,keepdims=True))
 
  large = s > cutoff
  s = np.divide(1, s, where=large, out=s)
@@ -92,9 +92,6 @@ def ex2(rcond=1e-15):
  s_version2=s[...,np.newaxis]
 
  right_matrix=np.multiply(s_version2,np.transpose(u))
-
- #right_matrix.shape
- #(4,5)
 
  aaa_inv2=np.matmul(vt.T,right_matrix)
 
@@ -194,3 +191,4 @@ def ex3(rcond=1e-15):
  #print("difference bt manual and NumPy ",aaa_inv-aaa_inv2)
 
  print(np.linalg.cond(aaa))
+
