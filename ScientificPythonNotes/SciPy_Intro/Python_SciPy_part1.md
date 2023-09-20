@@ -178,12 +178,31 @@ Here, I've added a horizontal blue dash-dotted line.  It is clear that f(x) cros
 
 ![](./figures/Figure_1b.png)
 
+ Now, consider also the function $f(x) = 1/x$.  This one does _not_ have a root.  If you let SciPy choose the tolerance level you will get an error the first time:
  
+ ```
+ func=lambda x: 1/x
+ result=optimize.fsolve(func,-5,xtol=1e-8)
+ #RuntimeWarning: The number of calls to function has reached maxfev = 400.
+  warnings.warn(msg, RuntimeWarning)
+ 
+ ```
+Now, if you run it again, you might not get an error message and might not have any idea that you have a convergence error.
+
+To check for these things turn on ``full_output``
+
+```
+result=optimize.fsolve(func,-5,xtol=1e-8,full_output=True)
+```
+
+Which returns ...
+
+```
+(array([-8.80118398e+83]), {'nfev': 400, 'fjac': array([[-1.]]), 'r': array([5.46865746e-168]), 'qtf': array([1.83842764e-84]), 'fvec': array([-1.13621077e-84])}, 2, 'The number of calls to function has reached maxfev = 400.')
+```
 
 #### _Tolerancing_
  
- 
-
  For functions such as $f(x) = x^{2} -9$, the roots are clearly 3 and −3 as we can determine analytically. However, for other functions determining an analytic, or exact, solution for the roots of functions can be difficult.  Here's one particularly evil function, $f(x) = x^{3} +x^{2}cos(x)$, written as: 
 ```
 func=lambda x: x**(3.)+1e-3*x**(2.)*np.cos(x+0.01)
@@ -195,29 +214,13 @@ If we plot this function over the interval x = -10 to 10 we get:
 
 There's a lot of space (x = -7.5 to 2.5) where we are ever so close to finding a root ... but not quite there.
 
-Consider also the function $f(x) = 1/x$.  This one does _not_ have a root.
+This is a somewhat trivial example, but you will likely encounter numerical problems in your research where you need a "good enough" solution.  That's where tolerancing comes in.
 
-These are somewhat trivial examples, but you will likely encounter numerical problems in your research where a particular optimization procedure nominally does not converge.
- 
-  For these cases, it is useful to generate numerical approximations of the roots of $f$ and understand the limitations in doing so.   For _fsolve_ the keyword is ``xtol``, which is nominally set to $\sim$1.5$\times$10$^{-8}$.
- 
- As an example for $f(x) = 1/x$, if you let SciPy choose the tolerance level you will get an error:
- 
- ```
- func=lambda x: 1/x
- result=optimize.fsolve(func,-5,xtol=1e-8)
- #RuntimeWarning: The number of calls to function has reached maxfev = 400.
-  warnings.warn(msg, RuntimeWarning)
- 
- ```
- 
- Re-setting the tolerance level to something smaller (``xtol=1e-5``), yields an answer (basically "whatever really big number Python could think of")
- 
- ```
- func=lambda x: 1/x
- result=optimize.fsolve(func,-5,xtol=1e-5)
- 
- result
- #array([-8.80118398e+83])
- 
- ```
+For computing roots, we want an 𝑥𝑟 such that $𝑓(𝑥𝑟)$ is very close to 0. Therefore |𝑓(𝑥)| is a possible choice for the measure of error since the smaller it is, the likelier we are to a root. Also if we assume that 𝑥𝑖 is the 𝑖th guess of an algorithm for finding a root, then |𝑥𝑖+1−𝑥𝑖| is another possible choice for measuring error, since we expect the improvements between subsequent guesses to diminish as it approaches a solution. As will be demonstrated in the following examples, these different choices have their advantages and disadvantages.
+
+E.g. Let error be measured by 𝑒=|𝑓(𝑥)| and tol be the acceptable level of error. The function $𝑓(𝑥)$=𝑥$^{2}$+tol/2 has no real roots. However, |𝑓(0)|=tol/2 and is therefore acceptable as a solution for a root finding program.
+
+Another general example: Let error be measured by 𝑒=|𝑥𝑖+1−𝑥𝑖| and tol be the acceptable level of error. The function $𝑓(𝑥)=1/𝑥$ has no real roots as we found before.  But the guesses 𝑥𝑖= −tol/4 and 𝑥𝑖+1=tol/4 have an error of 𝑒=tol/2 and is an acceptable solution for a computer program.
+
+The use of tolerance and converging criteria must be done very carefully and in the context of the program that uses them.
+
