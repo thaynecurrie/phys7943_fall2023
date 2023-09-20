@@ -145,7 +145,8 @@ The transformed data has been reduced to a single dimension. To understand the e
 X_new = pca.inverse_transform(X_pca)
 plt.scatter(X[:, 0], X[:, 1], alpha=0.2)
 plt.scatter(X_new[:, 0], X_new[:, 1], alpha=0.8)
-plt.axis('equal');
+plt.axis('equal')
+plt.show()
 ```
 
 ![](./figures/Figure_pcademo4.png)
@@ -275,11 +276,16 @@ def runme(npca=5,plotrelpc=True,plotorigvspc=True):
  #### Step 5b - Compute the PCs
   # Take transpose of eigen vectors with data --> get PCs
  pca_data = mean_data.dot(eig_vec)
+ 
+ 
+ #### Step 6 - Reconstruct Original Data from PCs
+ # Reverse PCA transformation
+ recon_data = pca_data.dot(eig_vec.T) + mean
 
 ```
 
 Go ahead and run this program with the full number of PCs 
-``from pcademo2g import runme; runme(plotorigvspc=True,plotrelpc=True,npca=2)``
+``from pcademo3 import runme; runme(plotorigvspc=True,plotrelpc=True,npca=2)``
 
 ![](./figures/Figure_pcademo5.png)
 
@@ -305,119 +311,5 @@ If we run this with 10 principal components retained we fully recover the origin
 
 ---
 
-Okay, great but if we can just model the data perfectly by retaining all PCs, why do we ever want to truncate the PC basis for anything?   Well, the answer rests largely in applications of PCA.  What if instead of the contrived model I made, the data are instead "noisy" (and they are ALWAYS noisy)?   E.g. if we have a bunch of images, 
-
-#### Applications of PCA
-
-There are a ton of applications to PCA.  I will focus on just a few of them here.
-
-1 -- **Face Recognition** 
-
-PCA can be used as a sort of engine to do face recognition (this may be covered later under machine learning ... time permitting).  For now, we will simply demonstrate its ability to extract key properties of people's faces that, "by eye", are good enough for identification.   We will use the Labeled Faces in the Wild dataset, which consists of several thousand collated photos of various public figures. A fetcher for the dataset is built into Scikit-Learn:Each image contains [62×47] or nearly 3,000 pixels.
-
-The source code for this exercise is in ``eigenfaces.py``.
-
-Let's take a look at the principal axes that span this dataset. Because this is a large dataset, we will use Randomized PCA in scikit-learn —it contains a randomized method to approximate the first principal components much more quickly than the standard PCA estimator, and thus is very useful for high-dimensional data (here, a dimensionality of nearly 3,000 ... that's a lot!). We will take a look at the first 150 components:
-
-```
-from sklearn.decomposition import RandomizedPCA
-pca = RandomizedPCA(150)
-pca.fit(faces.data)
-
-```
-
-In this case, it can be interesting to visualize the images associated with the first several principal components (these types of images are often called "eigenfaces"):
-
-![](./figures/Figure_eigenfacesdemo1.png)
-
-
-The results give us insight into how the images vary: for example, the first few eigenfaces (from the top left) seem to be associated with the angle of lighting on the face, and later principal vectors seem to be picking out certain features, such as eyes, noses, and lips. 
-
-Let's take a look at the cumulative variance of these components to see how much of the data information the projection is preserving:
-
-```
-plt.plot(np.cumsum(pca.explained_variance_ratio_))
-plt.xlabel('number of components')
-plt.ylabel('cumulative explained variance');
-```
-
-These 150 components account for about 90% of the variance. That would lead us to believe that using these 150 components, we would recover most of the essential characteristics of the data. To make this more concrete, we can compare the input images with the images reconstructed from these 150 components:
-
-![](./figures/Figure_eigenfacesdemo2.png)
-
-
-```
-# Compute the components and projected faces
-pca = RandomizedPCA(150).fit(faces.data)
-components = pca.transform(faces.data)
-projected = pca.inverse_transform(components)
-```
-
-```
-# Plot the results
-fig, ax = plt.subplots(2, 10, figsize=(10, 2.5),
-                       subplot_kw={'xticks':[], 'yticks':[]},
-                       gridspec_kw=dict(hspace=0.1, wspace=0.1))
-for i in range(10):
-    ax[0, i].imshow(faces.data[i].reshape(62, 47), cmap='binary_r')
-    ax[1, i].imshow(projected[i].reshape(62, 47), cmap='binary_r')
-    
-ax[0, 0].set_ylabel('full-dim\ninput')
-ax[1, 0].set_ylabel('150-dim\nreconstruction');
-```
-![](./figures/Figure_eigenfacesdemo3.png)
-
-The top row here shows the input images, while the bottom row shows the reconstruction of the images from just 150 of the ~3,000 initial features.  Although it reduces the dimensionality of the data by nearly a factor of 20, the projected images contain enough information that we might, by eye, recognize the individuals in the image. What this means is that if we have a classification algorithm (Machine Learning jargon ... again, hopefully we cover this late), it needs to be trained on 150-dimensional data rather than 3,000-dimensional data, which depending on the particular algorithm we choose, can lead to a much more efficient classification.
-
-Now, what about a more aggressive cutoff in PCs?  How about, say, 40 principal components?   Can we still recognize people then?
-
-![](./figures/Figure_eigenfacesdemo3b.png)
-
-In some cases, yes.   
-
-2 -- **Exoplanet Imaging** 
-
-Okay, enough of the creepy faces.  There's another application of PCA that is particularly interesting.
-
-Remember back a few lectures ago when we were solving least-squares problems and came up with the "Locally Optimized Combination of Images" algorithm?  That was a straight matrix inversion multiplied by a column vector to give you a set of coefficients useful for minimizing the noise in an image (and hopefully detecting a planet).  
-
-What I didn't tell you then is that the **A** matrix in the **Ax** = **b** equation there is actually the covariance matrix.   We discussed earlier how we can truncate the covariance matrix using SVD to modify the LOCI algorithm.   Well, we can do a slightly different approach entirely: constructing a reference image to subtract from our target image where that reference consists of a linear combination of _eigenimages_.
-
-Principal Component Analysis forms the backbone of this approach too.   What we do is that we take the basis set (jargon jargon basically the PCs) and _transform_ it again, dividing by the square root of the eigenvalues.  We call this new matrix $Z_{k}^{KL}$:
-
-$Z_{k}^{KL}$ = $PC$/$\sqrt{\Lambda}$
-
-
- and then taking the dot product with a target image and multiplying the target image again.   It looks like this:
-
-$<$($Z_{k}^{KL}$,$T$) $>$ $Z_{k}^{KL}$
-
-(note: here in linear algebra hieroglyphics, the $<$ , $>$ means "dot product").  
-
-So what is this?  Well, remember when we originally did data-eigenvector multiplication we can think of it as "transforming" the data to a new basis set?   Well this equation has its own special term: the _Karhunen-Loeve transform_.   The algorithm name is the _Karhunen-Loeve Image Projection_ algorithm or "KLIP" for short.
-
-At full rank (i.e. you don't truncate anything), this is mathematically equivalent to LOCI. 
-
-Below is an example image of an exoplanet with PCA/KLIP.
-
-![](./figures/pcaexample.png) 
-
-You can also use PCA to remove thermal background from images in some cases.   Ground-based imaging of exoplanets is usually done in the infrared where planets are bright but also the sky is much brighter than it is in the optical.   In _thermal_ infrared passbands (e.g. 3 to 5 microns) the sky is _particularly_ bright.   And that "sky background" also varies in brightness on the order of minutes to tens of minutes or so.   
-
-The usual way to remove sky background is through simple "sky subtraction" (i.e. you move the star around the image, take a median-combination of those dithered images, subtract this "sky" image from each of your target images.   
-
-Below is an example:
-
-![](./figures/bckgdpca1.png)
-
-As you can see, the residual sky background has a lot of structure.  Maybe we can clean it up better?
-
-The answer is to actually use principal component analysis to model and remove the sky background as described in Hunziker et al. (2018).  If you have a bunch of sky images taken in short sequences, you can do this.  First, remove the mean sky level from each frame.  Then combine the sky frames into a matrix of $m$ images by $n$ pixels.   There's some other trickery you have to do (e.g. masking out the star/probable planet location), but the basic consequence is that you can model the sky background a lot better.  Below is an example of the same sky background as above in principal component "space"
-
-![](./figures/bckgdpca2a.png)
-![](./figures/bckgdpca2b.png)
-
-You then project these PCs onto each image to flatten the sky background.
-
-![](./figures/bckgdpca3.png)
+Okay, great but if we can just model the data perfectly by retaining all PCs, why do we ever want to truncate the PC basis for anything?   Well, the answer rests largely in applications of PCA.  What if instead of the contrived model I made, the data are instead "noisy" (and they are ALWAYS noisy)?   E.g. if we have a bunch of images. 
 
