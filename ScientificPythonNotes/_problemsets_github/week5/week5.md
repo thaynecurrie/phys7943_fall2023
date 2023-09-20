@@ -88,6 +88,17 @@ Demonstrate how to execute the function.   Run it where you retain i) 3 principa
 
 (**Note**: don't overthink this question.  I'm just asking you to write code to do a simple PCA calculation.   It's really just making sure you remember how to do PCA -- which you should since we are just covering it -- _and_ write Python functions, which we covered during the first week of class.)
 
+### 4. Course Project 
+
+By now, hopefully you have either refreshed your memory of basic Python code, NumPy operations, and numerical linear algebra or have learned a lot.  We will be covering some very basic fitting routines with SciPy next before moving on to plotting and displaying data with Matplotlib.
+
+So now would be a good time to think about what you _might_ be interested in learning more about for your Class Project that is not covered explicitly in the syllabus/course schedule.
+
+* What type of Project do you currently think you would like to focus on? 
+
+I will try to give you some feedback and hopefully we can define a project that you will find interesting and helpful.
 
 
+### 5. Feedback
 
+We are now about 5 weeks into the course (about 1/3 of the way done!).  Structurally, what in your opinion is working with the course? What is not working?
