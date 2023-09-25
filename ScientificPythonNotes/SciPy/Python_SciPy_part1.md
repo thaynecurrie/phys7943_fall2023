@@ -197,12 +197,12 @@ This seems straightforward, though in practice finding the right step size $\gam
 
 #####  _Basic Concept: Newton-Raphson Method_
 
-The Newton-Raphson method (or "Newton's Method") also rests on the simple idea of iterative approximation.   Here, if $f$ is differentiable, then we start with an initial guess of the root at $x_{o}$: an improved root should come from: an estimate of $x_{1}$ = $x_{o}$ + $f(x_{o})$/$f^{\prime}(x_{o})$.   Then the next estimate will be $x_{2}$ = $x_{1}$ + $f(x_{1})$/$f^{\prime}(x_{1})$ and so on.   Note that if the _second_ derivative is calculated, this becomes _Halley's method_.
+The Newton-Raphson method (or "Newton's Method") also rests on the simple idea of iterative approximation.   Here, if $f$ is differentiable, then we start with an initial guess of the root at $x_{o}$: an improved root should come from: an estimate of $x_{1}$ = $x_{o}$ - $f(x_{o})$/$f^{\prime}(x_{o})$.   Then the next estimate will be $x_{2}$ = $x_{1}$ - $f(x_{1})$/$f^{\prime}(x_{1})$ and so on.   Note that if the _second_ derivative is calculated, this becomes _Halley's method_.
 
-A variant of the Newton-Raphson method is the _secant method_, where we start with _two_ estimates of the root:
-$x_{n+1}$ = $x_{n}$ + $f(x_{n})$/$Q({x_{n-1},x_{n}})$, where $Q({x_{n-1},x_{n}})$ = $\frac{f(x_{n-1})-f(x_{n})}{x_{n-1}-x_{n}}$ 
+A variant of the Newton-Raphson method is the _secant method_, where we start with _two_ initial values:
+$x_{n}$ = $x_{n-1}$ - $f(x_{n-1})$/$Q({x_{n-1},x_{n-2}})$, where $Q({x_{n-1},x_{n-2}})$ = $\frac{f(x_{n-1})-f(x_{n-2})}{x_{n-1}-x_{n-2}}$ 
 
-Note that if $Q({x_{n-1},x_{n}})$ is close to the instantaneous derivative of $f$ ($f^{\prime}(x)$) then the secant method differs very little from the standard Newton-Raphson method.   While the secant method usually requires more iterations to converge than Newton-Raphson, each iteration is usually faster (since calculating a derivative is usually more computationally expensive than calculating $Q$).
+Note that if $Q$ is close to the instantaneous derivative of $f$ ($f^{\prime}(x)$) then the secant method differs very little from the standard Newton-Raphson method.   While the secant method usually requires more iterations to converge than Newton-Raphson, each iteration is usually faster (since calculating a derivative is usually more computationally expensive than calculating $Q$).
 
 In any case, the relevant SciPy function is ``scipy.optimize.newton``.   Depending on the input parameters, what it actually executes is either classic Newton-Raphson, secant, or Halley's method.
 
@@ -220,7 +220,7 @@ The manner in which LM iterates to a solution leverages on the Jacobian matrix $
 
 $J^{T}J  + \lambda I)\delta$ = $J^{T}[y-f(\beta)]$.  
 
-LM allows you to adjust $\lambda$ at each iteration.   If the sum of the squared deviations from $y$ is rapi, then $\lambda$ is reduced in size, which brings the algorithm closer to the Gauss-Newton method.   If an iteration results in a slow reduction in the sum of the squared deviations, then $\lambda$ can be increased, giving a step closer to the gradient descent direction.
+LM allows you to adjust $\lambda$ at each iteration.   If the sum of the squared deviations from $y$ is rapid, then $\lambda$ is reduced in size, which brings the algorithm closer to the Gauss-Newton method.   If an iteration results in a slow reduction in the sum of the squared deviations, then $\lambda$ can be increased, giving a step closer to the gradient descent direction.
 
 To do this, the parameter vector $\beta$ is replaced by a new, slightly modified entry $\beta^{\prime}$ = $\beta$ + $\delta$ at each iteration.  The original function is then approximated as f($x_{i}$, $\beta$+$\delta$) $\approx$ f($x_{i}$, $\beta$) + $\textbf{J}_{i}$$\delta$, where $\textbf{J}_{i}$ is the gradient of $f$ with respect to $\beta$.
 
@@ -532,5 +532,14 @@ plt.scatter(xarray,yarray)
 ```
 
 ![](./figures/Figure_6.png)
+
+
+Note here that the assumed functional form is key.  For example, if you are going to model your data as a simple cosine function then the function you port into ``curve_fit`` should look like:
+
+```
+ef test(xarray, a, b):
+    return a*np.cos(b*x) 
+
+```
 
 
