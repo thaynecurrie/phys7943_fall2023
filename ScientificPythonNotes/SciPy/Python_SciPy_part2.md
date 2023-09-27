@@ -202,7 +202,9 @@ The output shows the effect of doing cubic interpolation on this function in two
 
 #### Interpolating Images
 
-A major application of 2-D interpolation is interpolating images (this includes astronomical images).  This is a separate topic will will hopefully pick up again when discussing Matplotlib and AstroPy.  For now, know that it is an important practical application.
+A major application of 2-D interpolation is interpolating images (this includes astronomical images).  This is a separate topic will will hopefully pick up again in more detail when discussing Matplotlib and AstroPy.  For now,  a) know that it is an important practical application and b) let's look at two simple examples of interpolation.
+
+* ***Resampling Images***
 
 Here for example is an unannotated version of a press image I had in 2022, raw data:
 
@@ -215,3 +217,71 @@ And the version with cubic interpolation:
 And "Hanning" interpolation (which was used):
 
 ![](./files/abaurb_charis_press_square_noannot_v2hanning.png)
+
+
+* ***Registering Images***
+
+By image registration we mean shift a series of images to a common centroid position.   If you take a bunch of images with a camera they may be positionally offset from one another for various reasons (e.g. you dithered the sequence of images, the centroid position is actually moving due to telescope jitter/imperfect adaptive optics correctrions, etc.).   In any case, we therefore need to shift the positions of the images by different amounts.
+
+Below is an example from data taken with the Keck Observatory (you will see this data set show up later in the course):
+
+![](./figures/Figure_11.png)
+
+These are two images and if you look very very closely you might be able to see that they are misaligned (I will blink and forth between the images on DS9 so this clearer).  The image dimensions are both (502,502) and I have determined elsewhere what the centroid positions are of each image.  So let's realign them to make the star (central thing) align perfectly at pixel 252,252 (indexed from 1 ... if indexed from 0 this would be 251,251).
+
+A good first attempt to do this interpolation is actually found under the ``scipy.ndimage`` subpackage (apparently this stands for "multi-dimensional image processing`` (eh, whatever).  The specific function used is aptly named ``shift``.
+
+The source code for this exercise is found in ``regtest.py`` in the code subfolder.
+
+```
+import numpy as np
+from scipy.ndimage import shift
+from astropy.io import fits
+
+
+def run():
+
+
+ image1=fits.open('../files/n0001e.fits')[0].data
+ image2=fits.open('../files/n0024e.fits')[0].data
+
+ image1=np.where(np.isnan(image1),0,image1)
+ image2=np.where(np.isnan(image2),0,image2)
+
+ xcen,ycen=image1.shape[1]//2,image1.shape[0]//2
+ print(xcen,ycen)
+
+ centroid1=[220.975,251.130]
+ #centroid1=[250.975,251.130]
+ centroid2=[250.112,251.806]
+
+ result1=shift(image1,(-centroid1[0]+ycen,-centroid1[1]+xcen),order=3)
+ result2=shift(image2,(-centroid2[0]+ycen,-centroid2[1]+xcen),order=3)
+ #result1=shift(image1,[centroid1[0]-ycen,centroid1[1]-xcen],order=3)
+ #result2=shift(image2,[centroid2[0]-ycen,centroid2[1]-xcen],order=3)
+
+ fits.writeto('../files/shifted_1.fits',result1,overwrite=True)
+ fits.writeto('../files/shifted_2.fits',result2,overwrite=True)
+
+
+```
+
+I can then run from command line as 
+
+```
+from regtest import run
+run()
+```
+
+The resulting images are ``shifted_1.fits`` and ``shifted_2.fits``.
+
+If we display these images (using DS9 because I'm running out of time), we can see that both are now precisely registered.
+
+![](./figures/Figure_12.png)
+
+We can compare them to the results from a more optimized code, for example the first image:
+
+![](./figures/Figure_13.png)
+
+The plot on the left has an image scale approximately 1000 times more aggressive than the previously displayed image.  The plot on the right shows the absolute deviation (~0.001% typically).   Not bad.
+  
