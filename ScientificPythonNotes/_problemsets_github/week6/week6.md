@@ -33,17 +33,21 @@ Consider the function $2x^{3}+3x^{2}-4x-5$
 
 ### 3. Curve Fitting
 
-* start with ``inputdata.txt`` located in the week5 homework folder
+* start with ``inputdata.txt`` located in the week6 homework folder
 
 * read in these data with ``np.loadtxt``
 
 * visualize the data using a very simple matplotlib call:
  
   i.e.
+  
   ```
   import matplotlib.pyplot as plt
   
+  
   plt.scatter([variable name for x],[variable name for y])
+  
+  ```
   
   What kind of function does this look like? (note: the answer is functionally simple and involves two coefficients and one variable)
   
@@ -53,4 +57,23 @@ Consider the function $2x^{3}+3x^{2}-4x-5$
 * Compare your solution by plotting the data (as in item 3) with the functional fit overplotted (don't worry about nice-looking formatting: just the data + function are good enough)
 
 * Why might the fit not look perfect?
+
+
+### 4. Basic Statistics with SciPy and NumPy
+
+The file ``diskmasses.txt`` now found in the problem set directory for this section contains estimates for the masses (er, log(disk mass)) of protoplanetary disks for a large number of stars in the Taurus-Aurigae star-forming region.   
+
+* Read in this file using ``np.loadtxt``.  
+* Compute the mean, median, and variance of the log(disk mass).   
+* Compute the 25th and 75th percentile for log(disk mass).
+
+
+### 5. Binomial and Poisson Statistics: Confidence Intervals
+
+Evaluate this statement [note: the numbers are made up]:
+
+"In our study of the Blanco 1 open cluster from the Spitzer Space Telescope, we detect debris disks around 5 A stars out of a sample of 25.   Thus, the disk fraction around A stars in Blanco 1 is 20% $\pm$ 9.8%.   
+
+At the 68.2% confidence limit (1-$\sigma$ for a normal distribution), this disk fraction is slightly lower than 30% found in the sum-total of other open clusters of comparable ages".
+
 
