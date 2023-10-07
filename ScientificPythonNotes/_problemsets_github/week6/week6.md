@@ -61,7 +61,7 @@ Consider the function $2x^{3}+3x^{2}-4x-5$
 
 ### 4. Basic Statistics with SciPy and NumPy
 
-The file ``diskmasses.txt`` now found in the problem set directory for this section contains estimates for the masses (er, log(disk mass)) of protoplanetary disks for a large number of stars in the Taurus-Aurigae star-forming region.   
+The file ``diskmasses.txt`` now found in the problem set directory for this section contains estimates for the masses (er, log(disk mass)) of protoplanetary disks for a large number of stars in the Taurus-Aurigae star-forming region (this entry is the right-most column).   
 
 * Read in this file using ``np.loadtxt``.  
 * Compute the mean, median, and variance of the log(disk mass).   
