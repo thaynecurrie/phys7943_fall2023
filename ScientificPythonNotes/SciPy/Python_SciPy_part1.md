@@ -255,14 +255,6 @@ func(sol2.x)
 
 The answer is obviously not a root of the function $f(x)$.  So what happened?  The answer is clearer if we plot $f(x)$ vs an array of numbers:
 
-```
-rangeofnumbers=np.linspace(-5,5,1000) #an array of x values where we evaluate the function "func"
-plt.plot(rangeofnumbers,func(rangeofnumbers),c='tab:green')
-plt.xlabel('X')
-plt.ylabel('F(X)')
-plt.show()
-```
-
 ![](./figures/Figure_2.png)
 
 Here, we see that x=1.206 corresponds to a _local minimum_ of f(x) but not a zero.  That is, the LM algorithm is very good at finding minima of functions.  But if you give it an initial guess too far from the right answer, the solution is likely to be faulty.
