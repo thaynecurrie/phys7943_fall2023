@@ -32,3 +32,12 @@ Use the ``def tpenalty`` function as a starting point ...
 * Assume that you are computing a contrast curve with an instrument that uses only half of the field of view. 
 
 * What is the contrast penalty at a distance of 2.5 $\lambda$/D from the star?
+
+
+### 4. Simple Matplotlib Plotting
+
+* read in ``file.txt``
+* use SciPy's ``curve_fit`` function
+* plot the best-fit function as an orange dash-dotted line
+* overplot the original data with green cross symbols
+* Label ``X`` and ``Y`` in size 14 font.
