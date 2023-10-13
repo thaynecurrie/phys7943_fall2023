@@ -516,7 +516,53 @@ The full API documentation is here:
 [https://matplotlib.org/stable/api/\_as\_gen/matplotlib.pyplot.errorbar.html]()
 
 
-Key variables include _yerr_ (array of Y errors), _xerror_ (array of X errors), _ecolor_ (color of errorbars), _elinewidth_ (their width), etc.  If you want to plot just the data (no connecting lines) then you the _ls_ keyword is important (set it to ``ls='none'`` in this case).    _**errorbar**_ uses keywords from _**plt.plot**_ , so these will be a bit different than _**plt.scatter**_.  E.g. _ms_ is the markersize (not _s_ as in _**plt.scatter**_) and the scaling is different than in a scatter plot (see code below). _markeredgecolor_ is used, not _edgecolor_. 
+
+Key variables include _yerr_ (array of Y errors), _xerror_ (array of X errors), _ecolor_ (color of errorbars), _elinewidth_ (their width), etc.  If you want to plot just the data (no connecting lines) then you the _ls_ keyword is important (set it to ``ls='none'`` in this case).    _**errorbar**_ uses keywords from _**plt.plot**_ , so these will be a bit different than _**plt.scatter**_.  E.g. _ms_ is the markersize (not _s_ as in _**plt.scatter**_) and the scaling is different than in a scatter plot (see code below). _markeredgecolor_ is used, not _edgecolor_.   The combination of ``capsize`` and ``markeredgewidth`` control the appearance of caps.
+
+Here is a very simple errorbar plot:
+
+
+```
+x = np.linspace(0, 10, 40)
+const = 0.95
+y = 2*np.sin(x) + const * np.random.randn(40)
+
+plt.style.use('seaborn') #just to change things up a bit
+
+#plt.errorbar(x, y, yerr=const,ls='none') #just looks like blue vertical lines
+#plt.errorbar(x, y, yerr=const,ls='none',marker='o') #dots with blue vertical lines
+plt.errorbar(x, y, yerr=const,fmt='.k')
+
+plt.show()
+```
+
+
+
+![](./code/sect1/figures/Ex1_6ex.png)
+
+Note the different formatting options.  ``ls = 'none' `` just gives you vertical, lines, adding the marker value gives you that symbol plus the lines.  Instead using the ``fmt`` formatting keyword gives you the shortcut string notation parameter to specify the marker.
+
+
+Here's a case where we adjust the error color and linewidth while giving a cap to the errors:
+
+
+```
+x = np.linspace(0, 10, 40)
+const = 0.95
+y = 2*np.sin(x) + const * np.random.randn(40)
+
+plt.style.use('seaborn') #just to change things up a bit
+
+#plt.errorbar(x, y, yerr=const,ls='none') #just looks like blue vertical lines
+#plt.errorbar(x, y, yerr=const,ls='none',marker='o') #dots with blue vertical lines
+plt.errorbar(x, y, yerr=const,ls='none',marker='.',ecolor='darkgray',capsize=5,elinewidth=2,markeredgewidth=1)
+
+plt.show()
+
+
+
+```
+![](./code/sect1/figures/Ex1_6ex2.png)
 
 Here is an example of an errorbar plot where we define the fig, axes objects and construct the plot from the axes object:
 ###(Ex_1.6)
