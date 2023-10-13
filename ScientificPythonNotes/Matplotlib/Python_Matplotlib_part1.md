@@ -375,7 +375,77 @@ Below is an example of more customized plot incorporating all of these elements.
 ```
 ![](./code/sect1/figures/Ex1_4.png)
 
-#### The Fig, Axes Objects ...
+#### Plotting Limits
+
+By default, _**matplotlib**_ automatically sets axis limits.   But sometimes its default limits are not ideal/don't make sense for your application.   So like any good plotting package, we can manually adjust the limits.   
+
+For now, we will describe just the simplest possible tuning of axis limits: we will reserve a more complete discussion for the next section.   
+
+
+Anyway, with _plt_ the limits are set by ``plt.[x,y]lim([min number],[max number])``  
+
+E.g. ``plt.xlim(1,100)`` sets the x-axis limits on the plot to be between 1 and 100.   ``plt.ylim(5,500)`` sets the y-axis limits on the plot to be between 5 and 500.   
+
+Note that the commands for adjusting limits will be different with the axes container described below. Stay tuned for the second set of lecture notes covering that.
+
+Below is an example of the same figure as above with the axis limits changed (last few lines).   The limits can be defined as a hard-coded number or as a variable value (e.g. ``plt.xlim(0,np.max(array))``.
+
+
+```
+###(Ex_1.4_revised)
+
+#import matplotlib.pyplot as plt
+import numpy as np 
+xarray=np.arange(20)
+yarray=np.arange(20)+3*np.random.randn(20)
+
+ #https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html
+ #a polynomial fit of degree one
+
+a,b=np.polyfit(xarray,yarray,1)
+
+#set symbol size to a random value between 0 and 1
+
+#same as 5*np.random.rand(20) 
+   #since the length of yarray is 20 elements
+symsizeval=5*np.random.random(len(yarray))  
+symsizeval*=150
+
+#set alpha value to be a random number drawn from a normal distribution with mean of 0.5 and sigma of 0.2
+mu,sigma=0.5,0.2
+alphaval=np.random.normal(mu,sigma,len(yarray))
+
+# a simple cheat to catch randomized alpha values that are not between 0.1 and 1
+bad=np.where((alphaval <= 0.1) | (alphaval > 1))
+alphaval[bad]=0.5
+
+ #line plot of xarray and yarray
+   #varying color, marker, size, and transparency
+plt.scatter(xarray,yarray,color='g',marker='o',s=symsizeval,edgecolor='black',alpha=alphaval,
+      label=r'$Random_{num}$, $\mu = 0.5, \Sigma = 0.2$ for $\alpha$')
+
+plt.plot(xarray,xarray*a+b,color='tab:blue',
+     linestyle='-.',label='Linear fit with y = {0:.2f}*x + {1:.2f}'.format(a,b)) 
+     #linestyle is same as linestyle='dashdot'
+
+plt.xlabel('Initial $X_{Array}$',font='serif',size=14,color='gray',weight='heavy')
+plt.ylabel(r'Output,Y$_{\rm Array, random}$',font='Verdana',size=16,style='italic',weight='bold')
+
+plt.legend(loc='upper left',fontsize='small',borderpad=0.6,markerscale=0.5,
+    shadow=False,framealpha=0.7,title='The Random Data')
+
+###adjusted limits
+
+#plt.xlim(-5,22.5)
+#plt.ylim(-5,25)
+
+plt.ylim(-5,np.max(yarray)+2)
+plt.xlim(np.min(xarray)-4,np.max(yarray)+2)
+```
+
+
+
+### The Fig, Axes Objects ...
 
 Now we can get more sophisticated by splitting plt up into separate **_fig_** and **_ax_** objects by calling ```plt.subplots```.  Here's an example: ```fig,axes = plt.subplots()```.  For reasons that take too long to explain right now, this will give us more control over the presentation of our plots later.   And -- you guessed it -- it will allow us to do *_subplots_*. 
 
