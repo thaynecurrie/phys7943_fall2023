@@ -60,3 +60,14 @@ lowg=np.where( ( flag == 'lowg') | (flag == 'young') | (flag == 'lowg,young') | 
 ```
 
 * note: the problem will require you to inspect the file to see the column headers.
+
+
+### 6. Project Update
+
+* Please give me a (**short**) update on the progress of your class project.  In particular, I would like to see ...
+
+- A finalized short summary of what you are doing
+- A list of code packages you plan to use or type of code you plan to write
+- A description of the current status of your project
+- Items where you are getting stuck (if any)/questions you may have
+- Any plots or graphics you have produced.
