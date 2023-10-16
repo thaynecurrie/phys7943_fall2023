@@ -41,3 +41,22 @@ Use the ``def tpenalty`` function as a starting point ...
 * plot the best-fit function as an orange dash-dotted line
 * overplot the original data with green cross symbols
 * Label ``X`` and ``Y`` in size 14 font.
+
+### 5. Customized Matplotlib Plotting
+
+* read in ``compilation.txt`` 
+* reproduce the following plot
+
+![](./prob5.png)
+
+
+* note: the array slicing is a little bit tricky (ideally you want a vectorized string operation with wildcards).  Here's a simple version:
+
+```
+lowg=np.where( ( flag == 'lowg') | (flag == 'young') | (flag == 'lowg,young') | (flag == 'ABDor,lowg,young')
+              | (flag == 'Argus,lowg,young') | (flag == 'Columba,lowg,young') | (flag == 'TWA,lowg,young')
+              | (flag == 'ScoCen,young')                                 
+              | (flag == 'TucHor,young') | (flag=='Tuc-Hor,lowg,young') | (flag == 'plx-discrep,lowg') )
+```
+
+* note: the problem will require you to inspect the file to see the column headers.
