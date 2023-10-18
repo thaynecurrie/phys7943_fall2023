@@ -50,6 +50,7 @@ Use the ``def tpenalty`` function as a starting point ...
 ![](./prob5.png)
 
 
+
 * note: the array slicing is a little bit tricky (ideally you want a vectorized string operation with wildcards).  Here's a simple version:
 
 ```
@@ -61,8 +62,20 @@ lowg=np.where( ( flag == 'lowg') | (flag == 'young') | (flag == 'lowg,young') | 
 
 * note: the problem will require you to inspect the file to see the column headers.
 
+* note: to convert from apparent to absolute magnitude ...
+ $abs_{\rm mag}$ = $app_{\rm mag}$-5*log$_{\rm 10}$(distance/10 $pc$).    And the distance is related to the parallax as:
+ $distance (pc) = 1 /parallax$. 
+ 
+### 6. Multi-Panel Plots
 
-### 6. Project Update
+From the same data as above, produce the following plot (you will have to read in J, H, K and L photometry and errors)
+
+**EXTRA CREDIT (two points)** -- instead of individually indexing values for the plotted variables and labels, do this in a for-loop with the x,y data points and labels all saved to variables outside of the loopl.
+
+![](./prob6.png)
+
+
+### 7. Project Update
 
 * Please give me a (**short**) update on the progress of your class project.  In particular, I would like to see ...
 
