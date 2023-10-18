@@ -66,9 +66,26 @@ lowg=np.where( ( flag == 'lowg') | (flag == 'young') | (flag == 'lowg,young') | 
  $abs_{\rm mag}$ = $app_{\rm mag}$-5*log$_{\rm 10}$(distance/10 $pc$).    And the distance is related to the parallax as:
  $distance (pc) = 1 /parallax$. 
  
+ i.e. To go from apparent magnitude to absolute magnitude (e.g. J to $M_{\rm J}$) do:
+ 
+ $M_{\rm J}$ = J - 5*np.log10(1e2/parallax)
+ 
+ **Hint** -  The column notation is tricky.  The columns for J, error in J, H, and error in H are:
+ 
+ J = column 27
+ eJ = column 28
+ H = column 30
+ eH = column 31
+
+ 
+ 
 ### 6. Multi-Panel Plots
 
-From the same data as above, produce the following plot (you will have to read in J, H, K and L photometry and errors)
+From the same data as above, produce the following plot (you will have to read in J, H, K and L photometry and errors).
+
+**Hint** -  the convention for the columns is the same as in problem 5:
+
+  (i.e. K and L are columns 33 and 36, respectively)
 
 **EXTRA CREDIT (two points)** -- instead of individually indexing values for the plotted variables and labels, do this in a for-loop with the x,y data points and labels all saved to variables outside of the loopl.
 
