@@ -32,4 +32,4 @@ Panel 2
 
 The resulting figure should look as follows:
 
-![](./prob2.png)
+![](./prob2_rev.png)
