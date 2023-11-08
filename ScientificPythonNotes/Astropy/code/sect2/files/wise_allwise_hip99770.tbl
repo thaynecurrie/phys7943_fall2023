@@ -1,0 +1,118 @@
+\                                                                               
+\fixlen = T
+\RowsRetrieved =                 5
+\ORIGIN  = 'IPAC Infrared Science Archive (IRSA), Caltech/JPL'
+\SIMULATED_TABLE  = 'n'
+\DATETIME= '2023-11-06 14:25:10'
+\DataTag = 'ADS/IRSA.Gator#2023/1106/142510_30914'
+\DATABASE= 'AllWISE Source Catalog (allwise_p3as_psd)'
+\EQUINOX = 'J2000'
+\SKYAREA = 'within 50 arcsec of  ra=303.63347 dec=+36.80631 Eq J2000 '
+\StatusFile = '/workspace/TMP_CbKScx_29359/Gator/irsa/30914/log.30914.html'
+\SQL     = 'WHERE (no constraints) 
+\SQL     = 'SELECT (47 column names follow in next row.)'
+\ 
+\ designation 
+\ ___ WISE source designation
+\ ra (deg) 
+\ ___ right ascension (J2000)
+\ dec (deg) 
+\ ___ declination (J2000)
+\ sigra (arcsec) 
+\ ___ uncertainty in RA
+\ sigdec (arcsec) 
+\ ___ uncertainty in DEC
+\ sigradec (arcsec) 
+\ ___ cross-term of RA and Dec uncertainties
+\ w1mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 1
+\ w1sigmpro (mag) 
+\ ___ instrumental profile-fit photometry flux uncertainty in mag units, band 1
+\ w1snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 1
+\ w1rchi2 
+\ ___ instrumental profile-fit photometry reduced chi^2, band 1
+\ w2mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 2
+\ w2sigmpro (mag) 
+\ ___ instrumental profile-fit photometry flux uncertainty in mag units, band 2
+\ w2snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 2
+\ w2rchi2 
+\ ___ instrumental profile-fit photometry reduced chi^2, band 2
+\ w3mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 3
+\ w3sigmpro (mag) 
+\ ___ instrumental profile-fit photometry flux uncertainty in mag units, band 3
+\ w3snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 3
+\ w3rchi2 
+\ ___ instrumental profile-fit photometry reduced chi^2, band 3
+\ w4mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 4
+\ w4sigmpro (mag) 
+\ ___ instrumental profile-fit photometry flux uncertainty in mag units, band 4
+\ w4snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 4
+\ w4rchi2 
+\ ___ instrumental profile-fit photometry reduced chi^2, band 4
+\ nb 
+\ ___ number of blend components used in each fit
+\ na 
+\ ___ active deblend flag (=1 if actively deblended)
+\ w1sat 
+\ ___ fraction of pixels affected by saturation, band 1
+\ w2sat 
+\ ___ fraction of pixels affected by saturation, band 2
+\ w3sat 
+\ ___ fraction of pixels affected by saturation, band 3
+\ w4sat 
+\ ___ fraction of pixels affected by saturation, band 4
+\ pmra (mas/yr) 
+\ ___ Apparent motion in RA
+\ sigpmra (mas/yr) 
+\ ___ Uncertainty in the RA motion estimate
+\ pmdec (mas/yr) 
+\ ___ Apparent motion in Dec
+\ sigpmdec (mas/yr) 
+\ ___ Uncertainty in the Dec  motion estimate
+\ cc_flags 
+\ ___ prioritized artifacts affecting the source in each band
+\ ext_flg 
+\ ___ probability that source morphology is not consistent with single PSF
+\ var_flg 
+\ ___ probability that flux varied in any band greater than amount expected from unc.s
+\ ph_qual 
+\ ___ photometric quality of each band (A=highest, U=upper limit)
+\ moon_lev 
+\ ___ level of moon contamination in coadd (ceiling(#frmmoon/#frames*10)), 1 per band
+\ w1nm 
+\ ___ number of profile-fit flux measurements for source with SNR >= 3, band 1
+\ w1m 
+\ ___ number of profile-fit flux measurements for source, band 1
+\ w2nm 
+\ ___ number of profile-fit flux measurements for source with SNR >= 3, band 2
+\ w2m 
+\ ___ number of profile-fit flux measurements for source, band 2
+\ w3nm 
+\ ___ number of profile-fit flux measurements for source with SNR >= 3, band 3
+\ w3m 
+\ ___ number of profile-fit flux measurements for source, band 3
+\ w4nm 
+\ ___ number of profile-fit flux measurements for source with SNR >= 3, band 4
+\ w4m 
+\ ___ number of profile-fit flux measurements for source, band 4
+\ dist (arcsec) 
+\ ___ Distance between the target position and each source in arcsec.
+\ angle (deg) 
+\ ___ Position Angle in degree.
+\ 
+|          designation|          ra|         dec|    sigra|   sigdec|  sigradec|  w1mpro| w1sigmpro|    w1snr|   w1rchi2|  w2mpro| w2sigmpro|    w2snr|   w2rchi2|  w3mpro| w3sigmpro|    w3snr|   w3rchi2|  w4mpro| w4sigmpro|    w4snr|   w4rchi2|   nb|   na|  w1sat|  w2sat|  w3sat|  w4sat|     pmra|  sigpmra|    pmdec| sigpmdec| cc_flags| ext_flg| var_flg| ph_qual| moon_lev|   w1nm|    w1m|   w2nm|    w2m|   w3nm|    w3m|   w4nm|    w4m|           dist|       angle|
+|                 char|      double|      double|   double|   double|    double|  double|    double|   double|    double|  double|    double|   double|    double|  double|    double|   double|    double|  double|    double|   double|    double|  int|  int| double| double| double| double|      int|      int|      int|      int|     char|     int|    char|    char|     char|    int|    int|    int|    int|    int|    int|    int|    int|         double|      double|
+|                     |         deg|         deg|   arcsec|   arcsec|    arcsec|     mag|       mag|         |          |     mag|       mag|         |          |     mag|       mag|         |          |     mag|       mag|         |          |     |     |       |       |       |       |   mas/yr|   mas/yr|   mas/yr|   mas/yr|         |        |        |        |         |       |       |       |       |       |       |       |       |         arcsec|         deg|
+|                 null|        null|        null|     null|     null|      null|    null|      null|     null|      null|    null|      null|     null|      null|    null|      null|     null|      null|    null|      null|     null|      null| null| null|   null|   null|   null|   null|     null|     null|     null|     null|     null|    null|    null|    null|     null|   null|   null|   null|   null|   null|   null|   null|   null|           null|        null|
+   J201432.07+364823.7  303.6336262   36.8066110    0.0522    0.0552     0.0095    4.419      0.264       4.1  3.789e-02    4.055      0.107      10.2  1.078e+00    4.468      0.016      68.6  3.289e+00    4.435      0.032      34.3  1.066e+00     1     0   0.204   0.200   0.000   0.000     -2981        51      5176        54      0000        1     0211     BAAA      0000      35      35      35      35      18      18      18      18        1.173413    22.562544 
+   J201433.63+364850.0  303.6401617   36.8139119    0.0399    0.0375     0.0065   10.319      0.023      46.5  3.461e+01   10.328      0.021      52.6  2.112e+01   10.477      0.134       8.1  8.224e-01    9.234       null      -0.7  1.153e+00     1     0   0.000   0.000   0.000   0.000      -289        37       -62        36      ddH0        1     99nn     AABU      0000      35      35      35      35      12      18       0      18       33.480424    35.172805 
+   J201430.41+364852.3  303.6267436   36.8145549    0.0383    0.0357     0.0075   10.307      0.023      47.9  5.728e+00   10.324      0.020      54.6  4.625e+00   12.154       null      -0.7  1.322e+00    8.711       null      -5.1  1.169e+00     1     0   0.000   0.000   0.000   0.000        85        37      -142        35      hhD0        1     99nn     AAUU      0000      35      35      35      35       0      18       0      18       35.452213   326.850726 
+   J201429.51+364801.8  303.6229932   36.8005263    0.0520    0.0510    -0.0035   12.384      0.027      39.9  1.646e+01   12.451      0.029      37.7  6.609e+00   11.731       null      -5.4  1.075e+00    9.008       null      -9.0  1.354e+00     1     0   0.000   0.000   0.000   0.000       135        61      -313        63      hhD0        1     99nn     AAUU      0000      36      36      36      36       0      11       0      19       36.681499   235.418393 
+   J201434.65+364750.2  303.6443938   36.7972808    0.0534    0.0517    -0.0060   12.706      0.028      38.9  5.704e+00   12.838      0.028      39.3  2.189e+00   12.265       null      -1.3  7.311e-01    9.139       null      -2.9  1.048e+00     1     0   0.000   0.000   0.000   0.000      -224        70      -108        71      hhH0        1     55nn     AAUU      0000      36      36      36      36       0      18       0      18       45.256079   135.906806 
