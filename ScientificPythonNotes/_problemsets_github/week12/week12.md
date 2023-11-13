@@ -1,6 +1,6 @@
 # _Python for Scientific Data Analysis_
 
-## Homework - Week 12 (due November 15)
+## Homework - Week 12-13 (due November 20)
 
 
 ### 1. Project Update 
