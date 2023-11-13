@@ -58,3 +58,12 @@ Create a new table in the LaTeX format called ``newleggett.tex`` with the column
 * read your newly-created table back in to confirm that you have formatted the table properly.  If you do this in Jupyter Notebooks, the new table should be displayed as follows:
 
 ![](./newtable_screenshot.png)
+
+### 7. Units
+
+* take the result from ``newleggett.tex``.  Read in this file using ``ascii.read``, extract the column for Distance in units of parsecs.
+* use ``units`` to give explicit units of parsecs to these distances.  
+* using ``units``, convert these distances to light-years (abbreviated ``lyr``).
+* Do a simple histogram plot following the format of our galaxy velocity dispersion example:
+
+![](./distance_hist.png)
