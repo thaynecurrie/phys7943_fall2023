@@ -10,7 +10,7 @@
 * Rate your knowledge of astronomy-specific Python packages (AstroPy, AstroQuery,Photutils) at the start of this course (1 = no knowledge, 10 = highly proficient)
 * Rate your knowledge of astronomy-specific Python packages (AstroPy, AstroQuery,Photutils) at the end of this course
  
-* Which topics you would have like to have covered in this class that were not covered
+* Which topics you would have like to have covered in this class that were not covered?
 * Which, if any, topics do you feel were excessively covered?
 
 ### Problem 2 Astrometry and Photometry with Photutils
